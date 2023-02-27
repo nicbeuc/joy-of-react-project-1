@@ -1,29 +1,26 @@
 import { checkGuess } from "../../game-helpers";
 import { range } from "../../utils";
 
+function Cell({ letter, status }) {
+  const className = status ? `cell ${status}` : 'cell';
+
+  return (
+    <span className={className}>
+      {letter && letter}
+    </span>
+  )
+}
+
 function Guess({ guess, answer }) {
-  if (guess) {
-    const letterStatuses = checkGuess(guess, answer);
-    return (
-      <p className="guess">
-        {range(5).map(index => (
-          <span
-            key={index}
-            className={`cell ${letterStatuses[index].status}`}
-          >
-            {guess[index]}
-          </span>
-        ))}
-      </p>
-    )
-  }
+  const letterStatuses = checkGuess(guess, answer);
   return (
     <p className="guess">
       {range(5).map(index => (
-        <span
+        <Cell
           key={index}
-          className="cell"
-        ></span>
+          letter={guess?.[index]}
+          status={guess ? letterStatuses[index].status : undefined}
+        />
       ))}
     </p>
   )
